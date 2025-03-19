@@ -16,6 +16,11 @@
   let frameCount = 0;
   let lastTime = performance.now();
   let fps = 60;
+  
+  // Advanced control variables
+  let rotationSpeedFactor = 1.0;
+  let currentColorScheme = 'default';
+  let pointSizeBase = 0.02;
 
   // Initialize the visualizer
   function initVisualizer() {
@@ -337,6 +342,36 @@
     document.getElementById('sensitivity').addEventListener('input', (e) => {
       sensitivity = parseInt(e.target.value);
     });
+    
+    // Expose functions for advanced controls
+    window.updateRotationSpeed = function(speedFactor) {
+      rotationSpeedFactor = speedFactor;
+    };
+    
+    window.updateColorScheme = function(scheme) {
+      currentColorScheme = scheme;
+    };
+    
+    window.updatePointSize = function(size) {
+      pointSizeBase = size;
+      // Update point sizes for all visualizations
+      if (sphereMat) {
+        sphereMat.size = pointSizeBase + (isPlaying ? audioValues[0] * 0.03 : 0);
+        sphereMat.needsUpdate = true;
+      }
+      if (sphere3d3tMat) {
+        sphere3d3tMat.size = pointSizeBase + (isPlaying ? audioValues[0] * 0.03 : 0);
+        sphere3d3tMat.needsUpdate = true;
+      }
+    };
+    
+    window.stopAudio = function() {
+      if (audioElement) {
+        audioElement.pause();
+        audioElement.currentTime = 0;
+        isPlaying = false;
+      }
+    };
   }
   
   function handleFileSelect(event) {
@@ -590,9 +625,9 @@
     // Get audio data
     updateAudioValues(currentTime);
     
-    // Base rotation angles
-    let angle1 = 0.5 * elapsed; 
-    let angle2 = 0.7 * elapsed;
+    // Base rotation angles - apply rotation speed factor
+    let angle1 = 0.5 * elapsed * rotationSpeedFactor; 
+    let angle2 = 0.7 * elapsed * rotationSpeedFactor;
     
     // Modify rotation angles based on audio
     if (isPlaying) {
@@ -745,10 +780,41 @@
           let r, g, b;
           
           if (isPlaying) {
-            // Create spectrum coloring based on audio frequencies
-            const hue = (v4[0] + 1) * 0.5 + audioValues[1] * 0.2; // Base hue on w-coordinate + mid frequencies
-            const sat = 0.8 + audioValues[2] * 0.2; // Saturation affected by high-mids
-            const val = brightness * (0.8 + audioValues[0] * 0.2); // Value affected by bass
+            // Apply color scheme based on selection
+            let hue, sat, val;
+            
+            switch (currentColorScheme) {
+              case 'rainbow':
+                // Rainbow colors that shift with audio
+                hue = (v4[0] + 1) * 0.5 + audioValues[1] * 0.5; // Full spectrum
+                sat = 0.9 + audioValues[2] * 0.1;
+                val = brightness * (0.8 + audioValues[0] * 0.2);
+                break;
+              case 'monochrome':
+                // Monochrome blue shades
+                hue = 0.6; // Blue
+                sat = 0.2 + audioValues[2] * 0.1;
+                val = brightness * (0.7 + audioValues[0] * 0.3);
+                break;
+              case 'warm':
+                // Warm colors (reds, oranges, yellows)
+                hue = 0.05 + (v4[0] + 1) * 0.1 + audioValues[1] * 0.1; // 0.05-0.25 range
+                sat = 0.8 + audioValues[2] * 0.2;
+                val = brightness * (0.8 + audioValues[0] * 0.2);
+                break;
+              case 'cool':
+                // Cool colors (blues, purples, cyans)
+                hue = 0.5 + (v4[0] + 1) * 0.1 + audioValues[1] * 0.1; // 0.5-0.7 range
+                sat = 0.8 + audioValues[2] * 0.2;
+                val = brightness * (0.8 + audioValues[0] * 0.2);
+                break;
+              default: // 'default'
+                // Default spectrum coloring
+                hue = (v4[0] + 1) * 0.5 + audioValues[1] * 0.2;
+                sat = 0.8 + audioValues[2] * 0.2;
+                val = brightness * (0.8 + audioValues[0] * 0.2);
+                break;
+            }
             
             // HSV to RGB conversion
             [r, g, b] = hsvToRgb(hue, sat, val);
@@ -776,9 +842,9 @@
     posAttr.needsUpdate = true;
     colAttr.needsUpdate = true;
     
-    // Audio-reactive point size
+    // Audio-reactive point size with custom base size
     if (isPlaying) {
-      sphereMat.size = 0.02 + audioValues[0] * 0.03;
+      sphereMat.size = pointSizeBase + audioValues[0] * 0.03;
       sphereMat.needsUpdate = true;
     }
   }

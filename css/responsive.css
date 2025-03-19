@@ -1,0 +1,228 @@
+/* Enhanced Responsive Styles for DimensionalAV */
+@media (max-width: 768px) {
+  #info {
+    max-width: 90%;
+    margin: 10px auto;
+    left: 0;
+    right: 0;
+    font-size: 12px;
+  }
+  
+  #info h3 {
+    font-size: 1.2em;
+  }
+  
+  #audio-controls {
+    flex-direction: column;
+    padding: 10px;
+    gap: 10px;
+  }
+  
+  #audio-controls > * {
+    margin: 5px 0;
+    width: 100%;
+  }
+  
+  #audio-controls button {
+    width: 100%;
+    margin: 5px 0;
+  }
+  
+  #visualizer-settings {
+    margin-left: 0;
+    margin-top: 10px;
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  #sample-audio {
+    margin-left: 0;
+    margin-top: 10px;
+    width: 100%;
+  }
+  
+  #sample-audio-btn {
+    width: 100%;
+  }
+  
+  #sample-audio-dropdown {
+    width: 100%;
+    top: -160px;
+  }
+  
+  .key-button {
+    margin: 3px;
+    min-width: 40px;
+    padding: 8px 0;
+  }
+  
+  .github-corner svg {
+    width: 60px;
+    height: 60px;
+  }
+  
+  #fps-counter {
+    font-size: 10px;
+    top: 5px;
+    right: 5px;
+  }
+}
+
+@media (max-width: 480px) {
+  #info {
+    max-width: 95%;
+    padding: 8px;
+    font-size: 11px;
+  }
+  
+  #info h3 {
+    font-size: 1.1em;
+    margin-bottom: 5px;
+  }
+  
+  .key-controls p {
+    margin: 3px 0;
+  }
+  
+  #audio-controls {
+    padding: 8px;
+  }
+  
+  #audio-controls input[type="file"] {
+    font-size: 11px;
+  }
+  
+  #audio-controls button {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+  
+  #visualizer-settings label {
+    font-size: 11px;
+  }
+  
+  #visualizer-settings input[type="range"] {
+    width: 80px;
+  }
+  
+  .github-corner svg {
+    width: 40px;
+    height: 40px;
+  }
+  
+  /* Adjust visualization size for small screens */
+  canvas {
+    width: 100% !important;
+    height: 100% !important;
+  }
+}
+
+/* Landscape orientation on mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+  #info {
+    max-width: 50%;
+    max-height: 80vh;
+    overflow-y: auto;
+    font-size: 11px;
+  }
+  
+  #audio-controls {
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 5px;
+  }
+  
+  #audio-controls > * {
+    width: auto;
+    margin: 2px;
+  }
+  
+  #audio-controls button {
+    padding: 5px 8px;
+    font-size: 11px;
+  }
+  
+  #visualizer-settings {
+    margin-left: 5px;
+  }
+  
+  #sample-audio {
+    margin-left: 5px;
+  }
+  
+  #sample-audio-dropdown {
+    right: 0;
+    left: auto;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  body {
+    background: #000;
+    color: #ccc;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  body {
+    color: #fff;
+  }
+  
+  #info {
+    background: rgba(0,0,0,0.9);
+    border: 2px solid #fff;
+  }
+  
+  #audio-controls {
+    background: rgba(0,0,0,0.9);
+  }
+  
+  #audio-controls button {
+    border: 2px solid #fff;
+  }
+  
+  .key-button {
+    border: 2px solid #fff;
+  }
+  
+  .key-button.active {
+    background: #fff;
+    color: #000;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .github-corner:hover .octo-arm {
+    animation: none !important;
+  }
+  
+  #audio-controls button:hover {
+    transform: none !important;
+  }
+  
+  .key-button:hover {
+    transform: none !important;
+  }
+  
+  .spinner {
+    animation-duration: 2s !important;
+  }
+}
+
+/* Touch-friendly adjustments */
+@media (hover: none) {
+  #audio-controls button {
+    padding: 12px 15px;
+  }
+  
+  .key-button {
+    padding: 10px 15px;
+  }
+  
+  #sample-audio-dropdown a {
+    padding: 12px 15px;
+  }
+}

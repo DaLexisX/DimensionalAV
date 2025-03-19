@@ -6,6 +6,7 @@
   <title>DimensionalAV - 4D & 3D+3T Audio Visualizer</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap">
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/responsive.css">
   <link rel="icon" type="image/png" href="assets/favicon.png">
 </head>
 <body>
@@ -29,11 +30,34 @@
   </p>
   <div class="key-controls">
     <p><strong>Visualization Controls:</strong></p>
-    <div>
+    <div class="visualization-buttons">
       <button class="key-button active" data-key="t" data-tooltip="4D Tesseract Wireframe">T</button>
       <button class="key-button" data-key="s" data-tooltip="4D Sphere with Lambertian shading">S</button>
       <button class="key-button" data-key="c" data-tooltip="3D+3T Cube">C</button>
       <button class="key-button" data-key="u" data-tooltip="3D+3T Sphere">U</button>
+    </div>
+    <div class="advanced-controls">
+      <button id="toggle-advanced-controls" class="toggle-button">Advanced Controls ▼</button>
+      <div id="advanced-controls-panel" class="hidden">
+        <div class="control-group">
+          <label for="rotation-speed">Rotation Speed:</label>
+          <input type="range" id="rotation-speed" min="0" max="10" value="5" />
+        </div>
+        <div class="control-group">
+          <label for="color-scheme">Color Scheme:</label>
+          <select id="color-scheme">
+            <option value="default">Default</option>
+            <option value="rainbow">Rainbow</option>
+            <option value="monochrome">Monochrome</option>
+            <option value="warm">Warm</option>
+            <option value="cool">Cool</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label for="point-size">Point Size:</label>
+          <input type="range" id="point-size" min="1" max="10" value="5" />
+        </div>
+      </div>
     </div>
     <p>
       Use your mouse or touch to orbit, zoom, and pan the 3D scene.
@@ -47,8 +71,11 @@
 
 <div id="audio-controls">
   <input type="file" id="audio-file" accept="audio/mp3,audio/*" />
-  <button id="play-btn">Play</button>
-  <button id="pause-btn">Pause</button>
+  <div class="playback-controls">
+    <button id="play-btn">Play</button>
+    <button id="pause-btn">Pause</button>
+    <button id="stop-btn">Stop</button>
+  </div>
   <div id="visualizer-settings">
     <label for="sensitivity">Sensitivity:</label>
     <input type="range" id="sensitivity" min="1" max="10" value="5" />
@@ -57,8 +84,9 @@
     <button id="sample-audio-btn">Sample Audio ▼</button>
     <div id="sample-audio-dropdown">
       <a href="#" onclick="loadSampleAudio('audio/sample1.mp3'); return false;">Electronic Beat</a>
-      <a href="#" onclick="loadSampleAudio('audio/sample2.mp3'); return false;">Ambient</a>
-      <a href="#" onclick="loadSampleAudio('audio/sample3.mp3'); return false;">Classical</a>
+      <a href="#" onclick="loadSampleAudio('audio/sample2.mp3'); return false;">Ambient Piano</a>
+      <a href="#" onclick="loadSampleAudio('audio/sample3.mp3'); return false;">Classical Violin</a>
+      <a href="#" onclick="loadSampleAudio('audio/sample4.mp3'); return false;">Cinematic Piano</a>
     </div>
   </div>
 </div>
@@ -70,6 +98,7 @@
 <!-- Load our scripts -->
 <script src="js/ui.js"></script>
 <script src="js/visualizer.js"></script>
+<script src="js/advanced-controls.js"></script>
 
 </body>
 </html>
